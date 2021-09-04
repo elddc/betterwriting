@@ -1,0 +1,12 @@
+body {
+    font-size: 13px;
+}
+#container {
+    display: flex;
+    justify-content: center;
+    min-height: 70vh;
+}
+#main {
+    width: 70vw;
+    padding-top: 20vh;
+}
