@@ -15,7 +15,16 @@ const Editor = () => {
 
 	//init
 	useEffect(() => {
+		//firebase
+		initializeApp(
+			//insert firebase config
+		);
+		setDb(getFirestore());
+
 		//quill
+		let Font = Quill.import('formats/font');
+		Font.whitelist = ['helvetica', 'trebuchet-ms', 'times-new-roman', 'georgia', 'consolas']; //fonts to allow
+		Quill.register(Font, true);
 		setQuill(new Quill(editor.current, {
 			theme: 'snow',
 			placeholder: 'Start writing...',
@@ -23,12 +32,6 @@ const Editor = () => {
 				toolbar: toolbar.current.base
 			}
 		}));
-
-		//firebase
-		initializeApp(
-			//insert firebase config object here
-		);
-		setDb(getFirestore());
 	}, []);
 
 	//load document from firebase and set up autosave
