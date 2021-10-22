@@ -36,7 +36,7 @@ const App = () => {
 
 		//quill
 		let Font = Quill.import('formats/font');
-		Font.whitelist = ['helvetica', 'trebuchet-ms', 'times-new-roman', 'georgia', 'consolas']; //fonts to allow
+		Font.whitelist = ['trebuchet-ms', 'montserrat', 'times-new-roman', 'playfair-display', 'consolas']; //fonts to allow
 		Quill.register(Font, true);
 
 		var Size = Quill.import('attributors/style/size');
@@ -85,7 +85,7 @@ const App = () => {
 					//set save status indicator on first text change only in 3 sec interval
 					quill.on('text-change', debounce(() => {
 						setSaveStatus(0)
-					}, 3000, true))
+					}, 3000, true));
 				})
 			}
 		}

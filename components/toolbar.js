@@ -59,7 +59,7 @@ const Toolbar = () => {
 	}
 
 	return html`
-		<div class="toolbar-container" ref=${containerRef}>
+		<div class="toolbar-container"  ref=${containerRef}>
 		    <div id="toolbar" ref=${toolbarRef}>
 			    <span class="ql-formats">
 			      <button class="tooltipped" title="undo" onclick=${undo}>
@@ -71,11 +71,10 @@ const Toolbar = () => {
 			    </span>
     			<span class="ql-formats">
     				<select class="ql-font tooltipped" title="font family">
-    					<!--Insert font options-->
-    					<option value="helvetica" selected>Helvetica</option>
-    					<option value="trebuchet-ms">Trebuchet MS</option>
+    					<option value="trebuchet-ms" selected>Trebuchet MS</option>
+    					<option value="montserrat">Montserrat</option>
     					<option value="times-new-roman">Times New Roman</option>
-    					<option value="georgia">Georgia</option>
+    					<option value="playfair-display">Playfair Display</option>
     					<option value="consolas">Consolas</option>
     				</select>
     				<select class="ql-size">

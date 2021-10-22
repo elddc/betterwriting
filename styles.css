@@ -1,6 +1,6 @@
 body {
-    font-size: 14px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-family: Montserrat, "Trebuchet MS", sans-serif;
     margin: 0;
     height: 100%;
 }
@@ -26,10 +26,9 @@ body {
     flex: 1;
     height: auto;
     width: 75vw;
-    max-width: 7.5in;/* temp widths*/
+    max-width: 7.5in; /* temp widths */
     padding: 1in 0;
     border: none;
-    font-size: 14px;
 }
 
 .header {
@@ -43,7 +42,7 @@ body {
 .doc-name {
     margin: 0;
     font-weight: normal;
-    font-size: 1.5em;
+    font-size: 1.25em;
 }
 
 .material-icons {
@@ -62,7 +61,11 @@ body {
 }
 
 /* quill modifications */
-#editor .ql-editor{
+#editor.ql-container {
+    font-size: 18px;
+    font-family: "Trebuchet MS", sans-serif;
+}
+#editor .ql-editor {
     tab-size: 8;
     -moz-tab-size: 8;
 }
@@ -73,6 +76,8 @@ select option {
 }
 .toolbar-container {
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 .expand-button {
     position: absolute;
@@ -139,8 +144,8 @@ select option {
     text-overflow: ellipsis;
     width: 90%;
 }
-#toolbar .ql-font span[data-label='Helvetica']::before {
-    font-family: Helvetica, sans-serif;
+#toolbar .ql-font span[data-label='Montserrat']::before {
+    font-family: Montserrat, sans-serif;
 }
 #toolbar .ql-font span[data-label='Trebuchet MS']::before {
     font-family: 'Trebuchet MS', sans-serif;
@@ -154,8 +159,8 @@ select option {
 #toolbar .ql-font span[data-label='Consolas']::before {
     font-family: Consolas, monospace;
 }
-.ql-font-helvetica {
-    font-family: Helvetica, sans-serif;
+.ql-font-montserrat {
+    font-family: Montserrat, sans-serif;
 }
 .ql-font-trebuchet-ms {
     font-family: 'Trebuchet MS', sans-serif;
@@ -163,8 +168,8 @@ select option {
 .ql-font-times-new-roman {
     font-family: 'Times New Roman', serif;
 }
-.ql-font-georgia {
-    font-family: Georgia, serif;
+.ql-font-playfair-display {
+    font-family: "Playfair Display", serif;
 }
 .ql-font-consolas {
     font-family: Consolas, monospace;
