@@ -3,11 +3,10 @@ import Icon from './icon.js';
 
 const SaveIndicator = ({status}) => {
 	return html`
-	   <div class="icon-with-label">
+	   <div class="save-indicator icon-with-label">
 		   <${Icon} name=${status === 1 ? 'cloud_done' : 'sync'} size="18px;" style="margin-right: 6px;" />
 	       ${status === 1 ? 'saved' : 'saving...'}
 	   </div>
-	   <br />
     `;
 };
 

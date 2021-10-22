@@ -1,10 +1,13 @@
 import {render, html, useState, useEffect, useRef} from 'https://unpkg.com/htm/preact/standalone.module.js';
 import Quill from 'https://cdn.skypack.dev/quill';
 import Delta from 'https://cdn.skypack.dev/quill-delta';
+
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js';
 import {getFirestore, doc, setDoc, getDoc} from 'https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js';
 import debounce from 'https://cdn.skypack.dev/debounce';
+
 import QuillContext from './context/quillcontext.js';
+import Header from './components/header.js';
 import Toolbar from './components/toolbar.js';
 import SaveIndicator from './components/saveindicator.js';
 
@@ -12,11 +15,16 @@ const App = () => {
 	const [db, setDb] = useState(); //firestore
 	const [quill, setQuill] = useState(); //quill, passed down through context
 	const [saveStatus, setSaveStatus] = useState(-1); //-1: not loaded, 0: unsaved changes, 1: saved
+	const [fontSizes, setFontSizes] = useState(['14px', '16px', '18px']);
 
 	const editorRef = useRef(); //DOM ref
 	const toolbarRef = useRef(); //DOM ref
+	const containerRef = useRef(); //DOM ref
+
 	const saveDelta = useRef(); //delta of doc at last save
 	const debounceSave = useRef(); //debounce save function
+
+	const currentFormat = useRef(); //attributes
 
 	//init
 	useEffect(() => {
@@ -31,16 +39,21 @@ const App = () => {
 		Font.whitelist = ['helvetica', 'trebuchet-ms', 'times-new-roman', 'georgia', 'consolas']; //fonts to allow
 		Quill.register(Font, true);
 
+		var Size = Quill.import('attributors/style/size');
+		Size.whitelist = fontSizes;
+		Quill.register(Size, true);
+
 		setQuill(new Quill(editorRef.current, {
 			theme: 'snow',
 			placeholder: 'Start writing...',
 			modules: {
-				toolbar: toolbarRef.current.base
-			}
+				toolbar: toolbarRef.current.base,
+			},
+			scrollingContainer: containerRef.current,
 		}));
 
 		//save every 5 mins
-		const saveInterval = setInterval(saveToFirebase, 5*60000);
+		const saveInterval = setInterval(saveToFirebase, 5 * 60000);
 		return () => clearInterval(saveInterval); //cleanup
 	}, []);
 
@@ -50,7 +63,7 @@ const App = () => {
 			if (quill) {
 				//set handlers
 				quill.getModule('toolbar').addHandler('clean', cleanHandler);
-				quill.keyboard.addBinding({key: 'S', shortKey: true}, saveHandler)
+				quill.keyboard.addBinding({key: 'S', shortKey: true}, saveHandler);
 			}
 			//load document from firebase and set up autosave
 			if (db && quill) {
@@ -70,7 +83,9 @@ const App = () => {
 					quill.on('text-change', debounceSave.current);
 
 					//set save status indicator on first text change only in 3 sec interval
-					quill.on('text-change', debounce(() => {setSaveStatus(0)}, 3000, true))
+					quill.on('text-change', debounce(() => {
+						setSaveStatus(0)
+					}, 3000, true))
 				})
 			}
 		}
@@ -114,19 +129,26 @@ const App = () => {
 		else {
 			saveDelta.current = docDelta;
 			setDoc(doc(db, 'dev', 'testing'), {ops: docDelta.ops})
-			.then(() => {setSaveStatus(1)});
+			.then(() => {
+				setSaveStatus(1)
+			});
 		}
 	}
 
 	return html`
-	   <div id="main">
-		   <${QuillContext.Provider} value=${{quill, setQuill}}>
-			   <${SaveIndicator} status=${saveStatus} />
-			   <${Toolbar} ref=${toolbarRef} />
-			   <div id="editor" ref=${editorRef}></div>
-		   <//>
-	   </div>
-    `;
+		<div id="main">
+			<${QuillContext.Provider} value=${{quill, setQuill}}>
+				<${Header}>
+					 <${SaveIndicator} status=${saveStatus} /> 
+					<${Toolbar} ref=${toolbarRef} />
+				<//>
+				<div class="editor-container" ref=${containerRef}>
+					<div id="editor" ref=${editorRef}></div>
+				</div>
+			<//>
+		</div>
+	`;
 };
 
-render(html`<${App}/>`, document.querySelector('#container'));
+render(html`
+	<${App} />`, document.querySelector('#container'));

@@ -1,19 +1,51 @@
 body {
     font-size: 14px;
     font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    height: 100%;
 }
 #container {
-    display: flex;
-    justify-content: center;
-    min-height: 70vh;
+    height: 100%;
 }
 #main {
-    width: 70vw;
-    padding-top: 20vh;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+.editor-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
 }
 #editor {
+    flex: 1;
+    height: auto;
+    width: 75vw;
+    max-width: 7.5in;/* temp widths*/
+    padding: 1in 0;
+    border: none;
     font-size: 14px;
 }
+
+.header {
+    width: 100%;
+}
+.doc-info {
+    height: 3em;
+    padding: 1em;
+    display: inline-block;
+}
+.doc-name {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1.5em;
+}
+
 .material-icons {
     color: #444444;
 }
@@ -23,10 +55,21 @@ body {
 .icon-with-label * {
     vertical-align: sub;
 }
+.save-indicator {
+    display: inline-block;
+    float: right;
+    margin: 1em;
+}
+
+/* quill modifications */
+#editor .ql-editor{
+    tab-size: 8;
+    -moz-tab-size: 8;
+}
 
 /* toolbar */
 select option {
-    z-index: 1;
+    z-index: 10;
 }
 .toolbar-container {
     position: relative;
@@ -47,6 +90,11 @@ select option {
     padding: 0 8px 0 0;
     color: #ccc;
     float: left;
+}
+.ql-picker-label.ql-active,
+.ql-picker-label.ql-active * {
+    color: #444 !important;
+    stroke: #444 !important;
 }
 
 /* tooltips */
@@ -121,4 +169,14 @@ select option {
 .ql-font-consolas {
     font-family: Consolas, monospace;
 }
-/* font size */
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+}

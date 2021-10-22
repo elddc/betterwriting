@@ -78,7 +78,15 @@ const Toolbar = () => {
     					<option value="georgia">Georgia</option>
     					<option value="consolas">Consolas</option>
     				</select>
-    				<!--<select class="ql-size"></select>-->
+    				<select class="ql-size">
+					    <option value="14px">14px</option>
+					    <option value="16px">16px</option>
+					    <option value="18px">18px</option>
+				    </select>
+				    <!-- todo -->
+				    <button class="tooltipped" title="line height">
+					    <${Icon} name="format_line_spacing" />
+				    </button>
     				</span>
     			<span class="ql-formats">
     				<button class="ql-bold tooltipped" title="bold"></button>
