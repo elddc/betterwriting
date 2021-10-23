@@ -1,5 +1,5 @@
 import {createContext} from 'https://unpkg.com/htm/preact/standalone.module.js';
 
-const QuillContext = createContext(null)
+const QuillContext = createContext();
 
 export default QuillContext;

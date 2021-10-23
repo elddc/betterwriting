@@ -16,6 +16,7 @@ const App = () => {
 	const [quill, setQuill] = useState(); //quill, passed down through context
 	const [saveStatus, setSaveStatus] = useState(-1); //-1: not loaded, 0: unsaved changes, 1: saved
 	const [fontSizes, setFontSizes] = useState(['14px', '16px', '18px']);
+	const [currentFont, setCurrentFont] = useState('trebuchet-ms');
 
 	const editorRef = useRef(); //DOM ref
 	const toolbarRef = useRef(); //DOM ref
@@ -35,10 +36,6 @@ const App = () => {
 		setDb(getFirestore());
 
 		//quill
-		let Font = Quill.import('formats/font');
-		Font.whitelist = ['trebuchet-ms', 'montserrat', 'times-new-roman', 'playfair-display', 'consolas']; //fonts to allow
-		Quill.register(Font, true);
-
 		var Size = Quill.import('attributors/style/size');
 		Size.whitelist = fontSizes;
 		Quill.register(Size, true);
@@ -63,6 +60,7 @@ const App = () => {
 			if (quill) {
 				//set handlers
 				quill.getModule('toolbar').addHandler('clean', cleanHandler);
+				quill.getModule('toolbar').addHandler('font', fontChangeHandler);
 				quill.keyboard.addBinding({key: 'S', shortKey: true}, saveHandler);
 			}
 			//load document from firebase and set up autosave
@@ -110,6 +108,11 @@ const App = () => {
 		}
 	}
 
+	const fontChangeHandler = (font) => {
+		setCurrentFont(font);
+		console.log(font)
+	}
+
 	//save on Ctrl+S
 	const saveHandler = () => {
 		saveToFirebase();
@@ -143,7 +146,7 @@ const App = () => {
 					<${Toolbar} ref=${toolbarRef} />
 				<//>
 				<div class="editor-container" ref=${containerRef}>
-					<div id="editor" ref=${editorRef}></div>
+					<div id="editor" class=${currentFont} ref=${editorRef}></div>
 				</div>
 			<//>
 		</div>

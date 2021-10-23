@@ -1,6 +1,6 @@
 body {
     font-size: 18px;
-    font-family: Montserrat, "Trebuchet MS", sans-serif;
+    font-family: "Trebuchet MS", sans-serif;
     margin: 0;
     height: 100%;
 }
@@ -68,6 +68,9 @@ body {
 #editor .ql-editor {
     tab-size: 8;
     -moz-tab-size: 8;
+}
+.ql-tooltip.ql-hidden {
+    display: none;
 }
 
 /* toolbar */
@@ -159,20 +162,20 @@ select option {
 #toolbar .ql-font span[data-label='Consolas']::before {
     font-family: Consolas, monospace;
 }
-.ql-font-montserrat {
-    font-family: Montserrat, sans-serif;
+.montserrat {
+    font-family: Montserrat, sans-serif !important;
 }
-.ql-font-trebuchet-ms {
-    font-family: 'Trebuchet MS', sans-serif;
+.trebuchet-ms {
+    font-family: 'Trebuchet MS', sans-serif !important;
 }
-.ql-font-times-new-roman {
-    font-family: 'Times New Roman', serif;
+.times-new-roman {
+    font-family: 'Times New Roman', serif !important;
 }
-.ql-font-playfair-display {
-    font-family: "Playfair Display", serif;
+.playfair-display {
+    font-family: "Playfair Display", serif !important;
 }
-.ql-font-consolas {
-    font-family: Consolas, monospace;
+.consolas {
+    font-family: Consolas, monospace !important;
 }
 
 /* scrollbar */
