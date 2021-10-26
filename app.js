@@ -7,16 +7,19 @@ import {getFirestore, doc, setDoc, getDoc} from 'https://www.gstatic.com/firebas
 import debounce from 'https://cdn.skypack.dev/debounce';
 
 import QuillContext from './context/quillcontext.js';
-import Header from './components/header.js';
-import Toolbar from './components/toolbar.js';
-import SaveIndicator from './components/saveindicator.js';
+import Header from './components/header/header.js';
+import Toolbar from './components/header/toolbar.js';
+import SaveIndicator from './components/header/saveindicator.js';
+import WordCount from './components/wordcount.js';
 
 const App = () => {
 	const [db, setDb] = useState(); //firestore
 	const [quill, setQuill] = useState(); //quill, passed down through context
-	const [saveStatus, setSaveStatus] = useState(-1); //-1: not loaded, 0: unsaved changes, 1: saved
-	const [fontSizes, setFontSizes] = useState(['14px', '16px', '18px']);
+	const [fontSizes, setFontSizes] = useState([12, 14, 16, 18, 20, 24, 28, 32]);
 	const [currentFont, setCurrentFont] = useState('trebuchet-ms');
+
+	const [saveStatus, setSaveStatus] = useState(-1); //-1: not loaded, 0: unsaved changes, 1: saved
+	const [wordCount, setWordCount] = useState(0);
 
 	const editorRef = useRef(); //DOM ref
 	const toolbarRef = useRef(); //DOM ref
@@ -37,7 +40,7 @@ const App = () => {
 
 		//quill
 		var Size = Quill.import('attributors/style/size');
-		Size.whitelist = fontSizes;
+		Size.whitelist = fontSizes.map(size => `${size+8}px`);
 		Quill.register(Size, true);
 
 		setQuill(new Quill(editorRef.current, {
@@ -45,13 +48,14 @@ const App = () => {
 			placeholder: 'Start writing...',
 			modules: {
 				toolbar: toolbarRef.current.base,
+				syntax: true,
 			},
 			scrollingContainer: containerRef.current,
 		}));
 
 		//save every 5 mins
 		const saveInterval = setInterval(saveToFirebase, 5 * 60000);
-		return () => clearInterval(saveInterval); //cleanup
+		return () => {clearInterval(saveInterval)}; //cleanup
 	}, []);
 
 	//set up quill and get doc from db
@@ -75,6 +79,10 @@ const App = () => {
 						quill.history.clear(); //prevent user from undoing initial load
 						saveDelta.current = quill.getContents(); //required for Delta comparisons
 					}
+
+					//find word count .5 seconds after last text change
+					quill.on('text-change', debounce(countWords, 500));
+					countWords();
 
 					//save 3 seconds after last text change
 					debounceSave.current = debounce(saveToFirebase, 3000); //store this to clear it
@@ -138,17 +146,23 @@ const App = () => {
 		}
 	}
 
+	const countWords = () => {
+		const words = quill.getText().match(/[^\s]+/g);
+		setWordCount(words ? words.length : 0);
+	}
+
 	return html`
 		<div id="main">
 			<${QuillContext.Provider} value=${{quill, setQuill}}>
 				<${Header}>
 					 <${SaveIndicator} status=${saveStatus} /> 
-					<${Toolbar} ref=${toolbarRef} />
+					<${Toolbar} ref=${toolbarRef} fontSizes=${fontSizes} />
 				<//>
 				<div class="editor-container" ref=${containerRef}>
 					<div id="editor" class=${currentFont} ref=${editorRef}></div>
 				</div>
 			<//>
+			<${WordCount} count=${wordCount} />
 		</div>
 	`;
 };

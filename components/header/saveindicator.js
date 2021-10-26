@@ -1,5 +1,5 @@
 import {html} from 'https://unpkg.com/htm/preact/standalone.module.js';
-import Icon from './icon.js';
+import Icon from '../icon.js';
 
 const SaveIndicator = ({status}) => {
 	return html`

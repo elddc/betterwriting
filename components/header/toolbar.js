@@ -1,8 +1,8 @@
 import {html, useState, useRef, useEffect, useContext} from 'https://unpkg.com/htm/preact/standalone.module.js';
-import Icon from './icon.js';
-import QuillContext from "../context/quillcontext.js";
+import Icon from '../icon.js';
+import QuillContext from "../../context/quillcontext.js";
 
-const Toolbar = () => {
+const Toolbar = ({fontSizes}) => {
 	const {quill} = useContext(QuillContext);
 
 	const [expanded, setExpanded] = useState(false);
@@ -78,14 +78,8 @@ const Toolbar = () => {
     					<option value="consolas">Consolas</option>
     				</select>
     				<select class="ql-size">
-					    <option value="14px">14px</option>
-					    <option value="16px">16px</option>
-					    <option value="18px">18px</option>
+					    ${fontSizes.map(size => html`<option value="${size+8}px">${size}px</option>`)}					    
 				    </select>
-				    <!-- todo -->
-				    <button class="tooltipped" title="line height">
-					    <${Icon} name="format_line_spacing" />
-				    </button>
     				</span>
     			<span class="ql-formats">
     				<button class="ql-bold tooltipped" title="bold"></button>
