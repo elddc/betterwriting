@@ -1,5 +1,6 @@
 import {html, useState, useRef, useEffect, useContext} from 'https://unpkg.com/htm/preact/standalone.module.js';
 import Icon from '../icon.js';
+import PrintButton from './print.js'
 import QuillContext from "../../context/quillcontext.js";
 
 const Toolbar = ({fontSizes}) => {
@@ -59,8 +60,11 @@ const Toolbar = ({fontSizes}) => {
 	}
 
 	return html`
-		<div class="toolbar-container"  ref=${containerRef}>
+		<div class="toolbar-container"  ref=${containerRef} style="font-size: 20px;">
 		    <div id="toolbar" ref=${toolbarRef}>
+			    <span class="ql-formats">
+			        <${PrintButton} size="18px"/>
+			    </span>
 			    <span class="ql-formats">
 			      <button class="tooltipped" title="undo" onclick=${undo}>
 				      <${Icon} name="undo" size="18px"/>
@@ -78,7 +82,7 @@ const Toolbar = ({fontSizes}) => {
     					<option value="consolas">Consolas</option>
     				</select>
     				<select class="ql-size">
-					    ${fontSizes.map(size => html`<option value="${size+8}px">${size}px</option>`)}					    
+					    ${fontSizes.map(size => html`<option value="${size+6}px">${size}px</option>`)}					    
 				    </select>
     				</span>
     			<span class="ql-formats">
@@ -98,8 +102,8 @@ const Toolbar = ({fontSizes}) => {
     		    </span>
     			<span class="ql-formats">
     		         <select class="ql-align tooltipped" title="text align"></select>
-    		         <button class="ql-indent tooltipped" value="-1" title="increase indent"></button>
-    		         <button class="ql-indent tooltipped" value="+1" title="decrease indent"></button>
+    		         <button class="ql-indent tooltipped" value="-1" title="decrease indent"></button>
+    		         <button class="ql-indent tooltipped" value="+1" title="increase indent"></button>
     		    </span>
     			<span class="ql-formats">
     		        <button class="ql-script tooltipped" value="sub" title="subscript"></button>

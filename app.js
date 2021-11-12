@@ -40,7 +40,7 @@ const App = () => {
 
 		//quill
 		var Size = Quill.import('attributors/style/size');
-		Size.whitelist = fontSizes.map(size => `${size+8}px`);
+		Size.whitelist = fontSizes.map(size => `${size+6}px`);
 		Quill.register(Size, true);
 
 		setQuill(new Quill(editorRef.current, {
@@ -167,5 +167,4 @@ const App = () => {
 	`;
 };
 
-render(html`
-	<${App} />`, document.querySelector('#container'));
+render(html`<${App} />`, document.querySelector('#container'));

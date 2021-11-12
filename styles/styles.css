@@ -25,9 +25,8 @@ body {
 #editor {
     flex: 1;
     height: auto;
-    width: 75vw;
-    max-width: 7.5in; /* temp widths */
-    padding: 1in 0;
+    width: clamp(300px, 75vw, 650px);
+    padding: 100px 0;
     border: none;
 }
 
@@ -61,13 +60,10 @@ body {
 }
 
 /* quill modifications */
-#editor.ql-container {
-    font-size: 18px;
-    font-family: "Trebuchet MS", sans-serif;
-}
 #editor .ql-editor {
-    tab-size: 8;
-    -moz-tab-size: 8;
+    font: 18px "Trebuchet MS", sans-serif;
+    tab-size: 36px;
+    -moz-tab-size: 36px;
     line-height: 2em;
 }
 .ql-tooltip.ql-hidden {

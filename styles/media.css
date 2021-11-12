@@ -1,0 +1,30 @@
+@media print {
+    @page {
+        margin: 72pt;
+    }
+    body, html, #container, #main, .editor-container {
+        overflow: visible;
+        width: 100%;
+    }
+    #main {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .editor-container {
+        width: auto;
+    }
+    #editor.ql-container {
+        width: 100%;
+        padding: 0;
+    }
+    #editor .ql-editor {
+        font: 9pt "Times New Roman", serif;
+        line-height: 32px;
+        tab-size: 36pt;
+        padding: 0;
+    }
+}
